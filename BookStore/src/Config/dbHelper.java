@@ -1,4 +1,4 @@
-package DAL;
+package Config;
 
 public class dbHelper {
 }
