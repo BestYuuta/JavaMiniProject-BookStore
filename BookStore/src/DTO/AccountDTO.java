@@ -4,17 +4,17 @@ import java.sql.Timestamp;
 
 public class AccountDTO {
     private int id;
-    private String userName;
-    private String passWord;
-    private String fullName;
+    private String username;
+    private String password;
+    private String name;
     private String role;
     private Timestamp createdAt;
 
-    public AccountDTO(int id, String userName, String passWord, String fullName, String role, Timestamp createdAt) {
+    public AccountDTO(int id, String username, String password, String name, String role, Timestamp createdAt) {
         this.id = id;
-        this.userName = userName;
-        this.passWord = passWord;
-        this.fullName = fullName;
+        this.username = username;
+        this.password = password;
+        this.name = name;
         this.role = role;
         this.createdAt = createdAt;
     }
@@ -28,27 +28,27 @@ public class AccountDTO {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public String getPassWord() {
-        return passWord;
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassWord(String password) {
+        this.password = password;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRole() {
