@@ -25,6 +25,10 @@ public class LoginFrame extends JFrame {
         setResizable(false);
         setVisible(true);
         btnSubmit.addActionListener(e -> handleLogin());
+        btnRegister.addActionListener(e -> {
+            dispose();
+            new RegisterForm();
+        });
     }
 
     private void handleLogin() {
