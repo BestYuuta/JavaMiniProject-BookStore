@@ -5,7 +5,7 @@ public class RegisterFormDTO {
     private String username;
     private String password;
 
-    public RegisterFormDTO(String name, String username, String password) {
+    public RegisterFormDTO(String username, String password, String name) {
         this.name = name;
         this.username = username;
         this.password = password;
