@@ -21,7 +21,26 @@ public class BookDAL {
                 rs.getString("author"),
                 rs.getInt("stock"),
                 rs.getTimestamp("created_at"),
-                rs.getString("img")
+                rs.getString("bookcover")
+            );
+            list.add(temp);
+        }
+        return list;
+    }
+
+    public List<BookDTO> SearchBookByAuthor(String author) throws SQLException {
+        String query = "SELECT * FROM books WHERE author LIKE ?";
+        author = "%" + author + "%";
+        ResultSet rs = dbHelper.executeQuery(query, author);
+        List<BookDTO> list = new ArrayList<>();
+        while (rs.next()) {
+            BookDTO temp = new BookDTO(
+                    rs.getInt("id"),
+                    rs.getString("title"),
+                    rs.getString("author"),
+                    rs.getInt("stock"),
+                    rs.getTimestamp("created_at"),
+                    rs.getString("bookcover")
             );
             list.add(temp);
         }
@@ -41,5 +60,20 @@ public class BookDAL {
             );
         }
         return null;
+    }
+
+    public void insertBook(BookDTO book) {
+        String sql = "INSERT INTO books(title, author, stock, created_at, bookcover) VALUES (?, ?, ?, ?, ?)";
+        dbHelper.executeUpdate(sql, book.getTitle(), book.getAuthor(), book.getStock(), book.getCreatedAt(), book.getBookcover());
+    }
+
+    public void updateBook(BookDTO book) {
+        String sql = "UPDATE books SET title=?, author=?, stock=?, bookcover=? WHERE id=?";
+        dbHelper.executeUpdate(sql, book.getTitle(), book.getAuthor(), book.getStock(), book.getBookcover(), book.getId());
+    }
+
+    public void deleteBook(int id) {
+        String sql = "DELETE FROM books WHERE id=?";
+        dbHelper.executeUpdate(sql, id);
     }
 }

@@ -2,16 +2,16 @@ package UI;
 
 import BLL.BookBLL;
 import DTO.BookDTO;
-import DAL.BookDAL;
 
 import javax.swing.*;
+import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Timestamp;
 
 public class BookDetailForm extends JFrame{
     private BookBLL bookBLL;
     private int bookId;
+    private String role;
 
     private JPanel BookDetailForm;
     private JPanel header;
@@ -44,9 +44,12 @@ public class BookDetailForm extends JFrame{
     private JPanel create_right;
     private JLabel lb_create_right;
 
-    public BookDetailForm(int bookId) {
+    public BookDetailForm(int bookId, String role) {
         this.bookId = bookId;
+        this.role = role;
         bookBLL = new BookBLL();
+
+        customizeUIBasedOnRole(role);
 
         setTitle("Book Detail");
         setContentPane(BookDetailForm);
@@ -59,11 +62,21 @@ public class BookDetailForm extends JFrame{
         loadBookDetails();
 
         btnBack.addActionListener(e -> handleBack());
-        btnBooking.addActionListener(e -> handleBooking());
 
         pack();
         setResizable(true);
         setVisible(true);
+    }
+
+    private void customizeUIBasedOnRole(String role){
+        if ("admin".equalsIgnoreCase(this.role)){
+            btnBooking.setText("Chỉnh sửa");
+            btnBooking.addActionListener(e -> handleEdit());
+        }
+        else {
+            btnBooking.setText("Thuê sách");
+            btnBooking.addActionListener(e -> handleBooking());
+        }
     }
 
     private void loadBookDetails() {
@@ -75,13 +88,23 @@ public class BookDetailForm extends JFrame{
             lb_stock_right.setText(String.valueOf(book.getStock()));
             lb_create_right.setText(String.valueOf(book.getCreatedAt()));
             try {
-                URL url = new URL(book.getImglink());
+                String imagePath = book.getBookcover();
+                if (!imagePath.startsWith("http://") && !imagePath.startsWith("https://") && !imagePath.startsWith("file://")) {
+                    imagePath = "file:///" + imagePath.replace("\\", "/");
+                }
+                URL url = new URL(imagePath);
                 ImageIcon icon = new ImageIcon(url);
-                lbimage.setIcon(icon);
-            } catch ( MalformedURLException e) {
+
+                // Giới hạn kích thước ảnh
+                Image image = icon.getImage();
+                int maxWidth = lbimage.getWidth();
+                int maxHeight = lbimage.getHeight();
+                Image scaledImage = image.getScaledInstance(maxWidth, maxHeight, Image.SCALE_SMOOTH);
+                lbimage.setIcon(new ImageIcon(scaledImage));
+
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -96,5 +119,14 @@ public class BookDetailForm extends JFrame{
 //        } else {
 //            JOptionPane.showMessageDialog(this, "Sách đã hết hoặc không tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 //        }
+    }
+    private void handleEdit() {
+        BookDTO book = bookBLL.getBookByID(bookId);
+        if (book != null) {
+            new BookEditForm(book, () -> {
+                this.dispose();
+                loadBookDetails();
+            });
+        }
     }
     }

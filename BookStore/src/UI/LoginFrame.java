@@ -41,18 +41,20 @@ public class LoginFrame extends JFrame {
         if (response.getSuccess()) {
             CustomDialog.show(true, response.getMessage());
             AccountDTO accountDTO = (AccountDTO) response.getData();
-//            if ("Admin".equalsIgnoreCase(accountDTO.getRole())) {
-//                new AdminFrame();
-//            } else if ("User".equalsIgnoreCase(accountDTO.getRole())) {
-//                new UserFrame();
-//            } else {
-//                JOptionPane.showMessageDialog(
-//                        this,
-//                        "Unknown role: " + accountDTO.getRole(),
-//                        "Error",
-//                        JOptionPane.ERROR_MESSAGE
-//                );
-//            }
+            if ("admin".equalsIgnoreCase(accountDTO.getRole())) {
+                dispose();
+                new AdminDashboard();
+            } else if ("User".equalsIgnoreCase(accountDTO.getRole())) {
+                dispose();
+                new UserDashboard();
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Unknown role: " + accountDTO.getRole(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
 
         } else {
             CustomDialog.show(false,"Error: " + response.getMessage());

@@ -8,15 +8,15 @@ public class BookDTO {
     private String author;
     private int stock;
     private Timestamp createdAt;
-    private String imglink;
+    private String bookcover;
 
-    public BookDTO(int id, String title, String author, int stock, Timestamp createdAt, String imglink) {
+    public BookDTO(int id, String title, String author, int stock, Timestamp createdAt, String bookcover) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.stock = stock;
         this.createdAt = createdAt;
-        this.imglink=imglink;
+        this.bookcover=bookcover;
     }
 
     public int getId() {
@@ -54,6 +54,6 @@ public class BookDTO {
         this.createdAt = createdAt;
     }
 
-    public String getImglink(){return imglink;}
-    public void setImglink(String imglink){this.imglink=imglink; }
+    public String getBookcover(){return bookcover;}
+    public void setBookcover(String bookcover){this.bookcover=BookDTO.this.bookcover; }
 }

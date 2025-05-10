@@ -38,7 +38,7 @@
             <properties>
               <font name="Courier New" size="20" style="3"/>
               <foreground color="-5914907"/>
-              <text value="RENTALS"/>
+              <text value="DETAIL"/>
             </properties>
           </component>
         </children>
