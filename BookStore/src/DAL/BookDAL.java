@@ -32,12 +32,12 @@ public class BookDAL {
         ResultSet rs = dbHelper.executeQuery("SELECT * FROM books WHERE id = ?", Integer.toString(id));
         if (rs.next()) {
             return new BookDTO(
-                rs.getInt("id"),
-                rs.getString("title"),
-                rs.getString("author"),
-                rs.getInt("stock"),
-                rs.getTimestamp("created_at"),
-                rs.getString("img")
+                    rs.getInt("id"),
+                    rs.getString("title"),
+                    rs.getString("author"),
+                    rs.getInt("stock"),
+                    rs.getTimestamp("created_at"),
+                    rs.getString("bookcover")
             );
         }
         return null;
