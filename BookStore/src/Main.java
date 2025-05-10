@@ -6,6 +6,5 @@ public class Main {
         GlobalException.setup();
         new UI.LoginFrame();
         new SeedData();
-        new UI.BookDetailForm(7);
     }
 }
