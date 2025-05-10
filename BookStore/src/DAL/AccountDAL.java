@@ -19,4 +19,15 @@ public class AccountDAL {
         }
         return null;
     }
+
+    public boolean createAccount(AccountDTO account) throws SQLException {
+        String sql = "INSERT INTO users (username, password, name, role) VALUES (?, ?, ?, ?)";
+        int rowsAffected = dbHelper.executeUpdate(sql,
+                account.getUsername(),
+                account.getPassWord(),
+                account.getName(),
+                account.getRole());
+
+        return rowsAffected > 0;
+    }
 }
