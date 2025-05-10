@@ -85,12 +85,17 @@ public class BookEditForm extends JFrame{
 
             String bookCover = txtBookCover.getText().trim();  // Lấy đường dẫn ảnh từ textbox
 
-            if (title.isEmpty() || author.isEmpty() || bookCover.isEmpty()) {
+            if (title.isEmpty() || author.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             if (book == null) {
+                if (bookCover.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng chọn ảnh bìa cho sách mới!", "Lỗi", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
                 BookDTO newBook = new BookDTO(0, title, author, stock, new Timestamp(System.currentTimeMillis()), bookCover);
                 bookBLL.addBook(newBook);
                 JOptionPane.showMessageDialog(this, "Thêm sách thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
@@ -98,7 +103,10 @@ public class BookEditForm extends JFrame{
                 book.setTitle(title);
                 book.setAuthor(author);
                 book.setStock(stock);
-                book.setBookcover(bookCover);
+                if (!bookCover.isEmpty()) {
+                    book.setBookcover(bookCover);
+                }
+
                 bookBLL.updateBook(book);
                 JOptionPane.showMessageDialog(this, "Cập nhật sách thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
             }
