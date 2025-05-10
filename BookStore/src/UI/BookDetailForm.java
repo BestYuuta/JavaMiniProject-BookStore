@@ -50,6 +50,8 @@ public class BookDetailForm extends JFrame{
 
         setTitle("Book Detail");
         setContentPane(BookDetailForm);
+        setSize(800, 600);
+        pack();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);

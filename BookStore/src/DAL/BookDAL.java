@@ -15,7 +15,7 @@ public class BookDAL {
                     rs.getString("author"),
                     rs.getInt("stock"),
                     rs.getTimestamp("created_at"),
-                    rs.getString("img")
+                    rs.getString("bookcover")
             );
         }
         return null;
