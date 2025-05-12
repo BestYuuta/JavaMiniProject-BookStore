@@ -34,7 +34,17 @@ public class RegisterForm extends JFrame{
         String name = txtName.getText().trim();
 
         if (username.isEmpty() || password.isEmpty() || name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in all fields", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Hãy điền hết thông tin!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (username.contains(" ")) {
+            JOptionPane.showMessageDialog(this, "Username không thể có khoảng trống!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (password.length() <= 5) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 6 ký tự!", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -49,4 +59,5 @@ public class RegisterForm extends JFrame{
             JOptionPane.showMessageDialog(this, "Register failed: " + response.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }

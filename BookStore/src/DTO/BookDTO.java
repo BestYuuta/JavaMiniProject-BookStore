@@ -19,6 +19,10 @@ public class BookDTO {
         this.bookcover=bookcover;
     }
 
+    public BookDTO() {
+
+    }
+
     public int getId() {
         return id;
     }
