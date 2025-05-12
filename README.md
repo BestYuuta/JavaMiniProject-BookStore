@@ -1,4 +1,4 @@
-# 📚 HỆ THỐNG QUẢN LÝ NHÀ SÁCH
+# 📚 HỆ THỐNG QUẢN LÝ TIỆM SÁCH
 
 ![Java](https://img.shields.io/badge/Java-blue)
 ![MySQL](https://img.shields.io/badge/MySQL-orange)
