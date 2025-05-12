@@ -1,6 +1,7 @@
 package UI;
 
 import BLL.BookBLL;
+import BLL.RentalBLL;
 import DTO.BookDTO;
 
 import javax.swing.*;
@@ -44,27 +45,27 @@ public class BookDetailForm extends JFrame{
     private JPanel create_right;
     private JLabel lb_create_right;
 
-    public BookDetailForm(int bookId, String role) {
+    private int userId;
+    private boolean isRented;
+    private RentalBLL rentalBLL;
+
+    public BookDetailForm(int bookId, String role, int userId) {
         this.bookId = bookId;
         this.role = role;
-        bookBLL = new BookBLL();
-
-        customizeUIBasedOnRole(role);
+        this.userId = userId;
+        this.bookBLL = new BookBLL();
+        this.rentalBLL = new RentalBLL();
 
         setTitle("Book Detail");
         setContentPane(BookDetailForm);
         setSize(800, 600);
-        pack();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        loadBookDetails();
-
+        customizeUIBasedOnRole(role);
         btnBack.addActionListener(e -> handleBack());
-
-        pack();
-        setResizable(true);
+        loadBookDetails();
         setVisible(true);
     }
 
@@ -72,10 +73,16 @@ public class BookDetailForm extends JFrame{
         if ("admin".equalsIgnoreCase(this.role)){
             btnBooking.setText("Chỉnh sửa");
             btnBooking.addActionListener(e -> handleEdit());
-        }
-        else {
-            btnBooking.setText("Thuê sách");
-            btnBooking.addActionListener(e -> handleBooking());
+        } else {
+            isRented = rentalBLL.isBookRentedByUser(userId, bookId);
+            btnBooking.setText(isRented ? "Trả sách" : "Thuê sách");
+            btnBooking.addActionListener(e -> {
+                if (isRented) {
+                    handleReturnBook();
+                } else {
+                    handleBooking();
+                }
+            });
         }
     }
 
@@ -97,8 +104,8 @@ public class BookDetailForm extends JFrame{
 
                 // Giới hạn kích thước ảnh
                 Image image = icon.getImage();
-                int maxWidth = lbimage.getWidth();
-                int maxHeight = lbimage.getHeight();
+                int maxWidth = 200;
+                int maxHeight = 300;
                 Image scaledImage = image.getScaledInstance(maxWidth, maxHeight, Image.SCALE_SMOOTH);
                 lbimage.setIcon(new ImageIcon(scaledImage));
 
@@ -109,16 +116,31 @@ public class BookDetailForm extends JFrame{
     }
 
     private void handleBack() {
-        this.dispose();
+        dispose();
     }
 
     private void handleBooking() {
-        BookDTO book = bookBLL.getBookByID(bookId);
-//        if (book != null && book.getStock() > 0) {
-//            JOptionPane.showMessageDialog(this, "Đã đặt sách '" + book.getTitle() + "' thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Sách đã hết hoặc không tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//        }
+        boolean success = rentalBLL.rentBook(userId, bookId);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Thuê sách thành công!");
+            isRented = true;
+            dispose();
+            btnBooking.setText("Trả sách");
+        } else {
+            JOptionPane.showMessageDialog(this, "Thuê sách thất bại!");
+        }
+    }
+
+    private void handleReturnBook() {
+        boolean success = rentalBLL.returnBook(userId, bookId);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Trả sách thành công!");
+            isRented = false;
+            dispose();
+            btnBooking.setText("Thuê sách");
+        } else {
+            JOptionPane.showMessageDialog(this, "Trả sách thất bại!");
+        }
     }
     private void handleEdit() {
         BookDTO book = bookBLL.getBookByID(bookId);

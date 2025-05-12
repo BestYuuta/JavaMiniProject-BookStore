@@ -46,7 +46,7 @@ public class LoginFrame extends JFrame {
                 new AdminDashboard();
             } else if ("User".equalsIgnoreCase(accountDTO.getRole())) {
                 dispose();
-                new UserDashboard();
+                new UserDashboard(accountDTO.getId());
             } else {
                 JOptionPane.showMessageDialog(
                         this,

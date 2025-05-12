@@ -41,7 +41,7 @@ public class AdminDashboard extends JFrame {
     }
     public void handleSearch() {
         String keyword = txtAdminSearch.getText().trim();
-        if (keyword.isEmpty()) return;
+        if (keyword.isEmpty()) refreshData();
 
         BookDAL bookDAL = new BookDAL();
         List<BookDTO> books = new ArrayList<>();
@@ -59,8 +59,13 @@ public class AdminDashboard extends JFrame {
     }
     public void handleBookDetail() {
         int selectedRow = adminShowTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một cuốn sách để xem chi tiết.");
+            return;
+        }
+
         int bookId = (int) adminShowTable.getValueAt(selectedRow, 0);
-        new UI.BookDetailForm(bookId, "admin");
+        new UI.BookDetailForm(bookId, "admin", -1);
     }
     public void handleAdd() {
         new BookEditForm(null, this::refreshData);
